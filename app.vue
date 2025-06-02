@@ -1,0 +1,12 @@
+<script setup lang="ts">
+import LayoutUnit from "~/components/LayoutUnit/index.vue";
+const appConfig = useAppConfig();
+</script>
+
+<template>
+  <UApp :toaster="appConfig.toaster">
+    <LayoutUnit>
+      <NuxtPage />
+    </LayoutUnit>
+  </UApp>
+</template>
