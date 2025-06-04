@@ -117,7 +117,7 @@ useHead({
     {
       name: "keywords",
       content:
-        "học từ vựng, từ vựng tiếng Anh, học tiếng Anh, học từ vựng thông minh, nền tảng học từ vựng, ghi nhớ từ vựng, ôn tập từ vựng, luyện tập từ vựng,vocabvibes, học từ vựng tiếng Anh hiệu quả",
+        "học từ vựng,từ vựng tiếng Anh,học tiếng Anh,học từ vựng thông minh,nền tảng học từ vựng,ghi nhớ từ vựng,ôn tập từ vựng,luyện tập từ vựng,vocabvibes,học từ vựng tiếng Anh hiệu quả,luyện tập từ vựng tiếng Anh,ứng dụng luyện tập từ vựng tiếng Anh,web luyện tập từ vựng tiếng Anh,app luyện tập từ vựng tiếng Anh,cách ôn tập từ vựng tiếng Anh không bị quên,ứng dụng luyện từ vựng tiếng Anh miễn phí hiệu quả nhất,luyện tập từ vựng tiếng Anh qua trò chơi tương tác,ôn tập từ vựng tiếng Anh để giao tiếp hàng ngày,ôn tập từ vựng tiếng Anh thi Toeic cấp tốc,ôn tập từ vựng tiếng Anh phục vụ du học Mỹ,luyện tập từ vựng tiếng Anh cho người mới bắt đầu,luyện từ vựng tiếng Anh cho học sinh tiểu học,luyện từ vựng tiếng Anh cho học sinh lớp 12 ôn thi THPT,luyện từ vựng tiếng Anh cho người đi làm bận rộn,cách học 100 từ vựng tiếng Anh mỗi tuần,kế hoạch luyện tập từ vựng tiếng Anh trong 7 ngày,lộ trình ôn tập từ vựng tiếng Anh trong 1 tháng,mẹo ghi nhớ 50 từ vựng tiếng Anh mỗi ngày",
     },
     {
       property: "og:title",
