@@ -40,6 +40,11 @@ export default defineNuxtConfig({
     head: {
       script: [
         {
+          src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4514641971794594",
+          async: true,
+          crossorigin: "anonymous",
+        },
+        {
           src: "https://www.googletagmanager.com/gtag/js?id=G-29PBZ4B3FJ",
           async: true,
         },
