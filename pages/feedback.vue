@@ -10,9 +10,12 @@
       >Đang tải…</iframe
     >
   </div>
+  <Adsense />
 </template>
 
 <script setup>
+import Adsense from "~/components/Adsense.vue";
+
 useHead({
   title: "VocabVibes Feedback",
 });

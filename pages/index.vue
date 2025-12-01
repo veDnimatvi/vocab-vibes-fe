@@ -75,9 +75,12 @@
       </div>
     </section>
   </div>
+  <!-- <Adsense /> -->
 </template>
 
 <script setup>
+import Adsense from "~/components/Adsense.vue";
+
 useHead({
   title: "VocabVibes - Ghi nhớ từ vựng hiệu quả mỗi ngày",
   meta: [

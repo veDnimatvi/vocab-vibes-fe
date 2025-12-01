@@ -238,12 +238,14 @@
     </template>
     <NoLogin v-else />
   </template>
+  <!-- <Adsense /> -->
 </template>
 
 <script setup>
 import { PACKAGES } from "~/utils/constants";
 import { ApiCreateOrder } from "~/apis/order";
 import { ApiCheckPackage } from "~/apis/auth";
+import Adsense from "~/components/Adsense.vue";
 useHead({
   title: "VocabVibes Upgrade - Nâng cấp gói học",
   meta: [

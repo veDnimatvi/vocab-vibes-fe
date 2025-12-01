@@ -13,7 +13,39 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@nuxtjs/color-mode",
     "@nuxtjs/i18n",
+    "@vite-pwa/nuxt", // Thêm module PWA
   ],
+  pwa: {
+    manifest: {
+      name: "Vocab Vibes",
+      description: "Ứng dụng học từ vựng hiệu quả",
+      icons: [
+        {
+          src: "icons/pwa-64x64.png",
+          sizes: "64x64",
+          type: "image/png",
+        },
+        {
+          src: "icons/pwa-192x192.png",
+          sizes: "192x192",
+          type: "image/png",
+        },
+        {
+          src: "icons/pwa-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any",
+        },
+      ],
+    },
+    workbox: {
+      navigateFallback: "/",
+    },
+    devOptions: {
+      enabled: true,
+      type: "module",
+    },
+  },
   colorMode: {
     classSuffix: "", // để dark => class là `dark`, không phải `dark-mode`
     preference: "light", // hoặc 'light' nếu muốn mặc định là sáng
@@ -42,7 +74,6 @@ export default defineNuxtConfig({
         {
           src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4514641971794594",
           async: true,
-          crossorigin: "anonymous",
         },
         {
           src: "https://www.googletagmanager.com/gtag/js?id=G-29PBZ4B3FJ",

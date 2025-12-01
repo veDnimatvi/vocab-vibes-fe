@@ -6,6 +6,7 @@ const appConfig = useAppConfig();
 <template>
   <UApp :toaster="appConfig.toaster">
     <LayoutUnit>
+      <NuxtPwaManifest />
       <NuxtPage />
     </LayoutUnit>
   </UApp>

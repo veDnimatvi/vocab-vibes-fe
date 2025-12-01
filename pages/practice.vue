@@ -65,11 +65,13 @@
     </div>
     <NoLogin v-else />
   </template>
+  <!-- <Adsense /> -->
 </template>
 
 <script setup>
 import { object, string } from "yup";
 import { ApiGetAllVocab } from "~/apis/vocabulary";
+import Adsense from "~/components/Adsense.vue";
 useHead({
   title: "VocabVibes Practice - Ghi nhớ từ vựng hiệu quả mỗi ngày",
   meta: [

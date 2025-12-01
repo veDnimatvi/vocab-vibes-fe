@@ -198,6 +198,7 @@
     </template>
     <NoLogin v-else />
   </template>
+  <!-- <Adsense /> -->
 </template>
 
 <script setup>
@@ -211,6 +212,7 @@ import {
 } from "~/apis/vocabulary";
 import { object, string } from "yup";
 import { TYPE_VOCAB } from "~/utils/constants";
+import Adsense from "~/components/Adsense.vue";
 useHead({
   title: "VocabVibes Vocabulary",
   meta: [
