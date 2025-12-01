@@ -160,6 +160,10 @@ useHead({
       name: "twitter:image",
       content: "~/assets/images/logo.png",
     },
+    {
+      name: "google-adsense-account",
+      content: "ca-pub-4514641971794594",
+    },
   ],
 });
 </script>
