@@ -78,7 +78,7 @@
               ? showAnswer
                 ? 'border-green-500 shadow-[6px_6px_0px_0px_#22c55e]'
                 : 'border-red-500 shadow-[6px_6px_0px_0px_#ef4444]'
-              : 'border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.15)]'
+              : 'border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
           }`">
           <p class="font-bold text-xl mb-3">
             <span

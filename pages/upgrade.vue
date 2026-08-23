@@ -17,7 +17,7 @@
         <div
           v-for="item of PACKAGES"
           :key="item.name"
-          class="bg-white dark:bg-[#212121] border-2 border-black dark:border-white rounded-xl overflow-hidden shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] dark:shadow-[5px_5px_0px_0px_rgba(255,255,255,0.15)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer">
+          class="bg-white dark:bg-[#212121] border-2 border-black dark:border-white rounded-xl overflow-hidden shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer">
 
           <!-- Badge ribbon -->
           <div
