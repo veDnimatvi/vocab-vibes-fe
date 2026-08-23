@@ -1,204 +1,262 @@
 <template>
   <template v-if="isLogin !== null">
     <template v-if="isLogin">
-      <div class="flex justify-center">
-        <div class="w-[600px]">
-          <div class="py-2" v-if="limit">
+      <div class="w-full max-w-3xl mx-auto px-4">
+        <!-- Warning Limits Info Banner -->
+        <div
+          class="bg-[#fef08a] text-black border-2 border-black rounded-lg px-4 py-1 mb-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-left flex items-start gap-3 select-none"
+          v-if="limit"
+        >
+          <UIcon
+            name="i-lucide-alert-triangle"
+            class="w-5 h-5 text-amber-800 shrink-0 mt-0.5"
+          />
+          <div class="font-bold text-sm leading-relaxed">
             {{ $t("vocab_title", { limit: limit }) }}
-            <NuxtLink to="/upgrade" class="text-yellow-400 underline">{{
-              $t("upgrade")
-            }}</NuxtLink>
+            <NuxtLink
+              to="/upgrade"
+              class="underline font-black hover:text-[#be185d] transition-colors pl-1"
+            >
+              {{ $t("upgrade") }}
+            </NuxtLink>
             {{ $t("for_more") }}
           </div>
+        </div>
+
+        <!-- Upper Panel Actions -->
+        <div class="flex flex-wrap gap-3">
+          <!-- Create Button -->
           <button
             @click="openModal = true"
-            class="dark:bg-white text-black bg-[#e2e3ee] font-bold rounded px-3 py-2 cursor-pointer">
+            class="bg-[#be185d] hover:bg-[#da1b6a] text-white font-extrabold px-4 py-1 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all cursor-pointer text-sm"
+          >
             {{ $t("add_new_btn") }}
           </button>
-          <UModal
-            v-if="openModal"
-            :open="openModal"
-            :title="modeEdit ? $t('edit_vocab') : $t('add_vocab')"
-            :close="{
-              color: 'error',
-              class: 'rounded-full',
-              onClick: closeModal,
-            }"
-            :ui="{ footer: 'justify-end' }">
-            <template #body>
-              <UForm
-                :schema="schema"
-                :state="vocabulary"
-                class="space-y-4"
-                @submit="onSubmit">
-                <UFormField name="word">
-                  <div class="dark:text-white text-black mb-2">
-                    {{ $t("word") }}(*)
-                  </div>
-                  <UInput v-model="vocabulary.word" class="w-full" />
-                </UFormField>
-                <UFormField name="type">
-                  <div class="dark:text-white text-black mb-2">
-                    {{ $t("type") }}(*)
-                  </div>
-                  <USelect
-                    v-model="vocabulary.type"
-                    class="w-full"
-                    :items="TYPE_VOCAB" />
-                </UFormField>
-                <UFormField name="meaning">
-                  <div class="dark:text-white text-black mb-2">
-                    {{ $t("meaning") }}(*)
-                  </div>
-                  <UInput v-model="vocabulary.meaning" class="w-full" />
-                  <p class="text-yellow-300 pt-3">
-                    {{ $t("note_add") }}
-                  </p>
-                </UFormField>
-                <UFormField name="example">
-                  <div class="dark:text-white text-black mb-2">
-                    {{ $t("example") }}(*)
-                  </div>
-                  <UInput v-model="vocabulary.example" class="w-full" />
-                </UFormField>
-                <UFormField name="description">
-                  <div class="dark:text-white text-black mb-2">
-                    {{ $t("description") }}(*)
-                  </div>
-                  <UTextarea v-model="vocabulary.description" class="w-full" />
-                </UFormField>
-                <template class="flex justify-end gap-3">
-                  <UButton
-                    class="cursor-pointer"
-                    :label="$t('cancel')"
-                    color="neutral"
-                    @click="closeModal" />
-                  <UButton
-                    class="cursor-pointer"
-                    :label="$t('submit')"
-                    type="submit"
-                    label="Submit"
-                    color="neutral"
-                    variant="outline" />
-                </template>
-              </UForm>
-            </template>
-          </UModal>
+
+          <!-- Import Button -->
           <label
-            class="dark:bg-white text-black bg-[#e2e3ee] font-bold rounded px-3 py-2 cursor-pointer ml-2 inline-block"
+            class="bg-white hover:bg-gray-50 text-black font-extrabold px-4 py-1 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all cursor-pointer text-sm inline-block"
             for="importFile"
-            >{{ $t("import_file") }}</label
           >
+            {{ $t("import_file") }}
+          </label>
           <input
             :accept="acceptTypeUpload"
             type="file"
             id="importFile"
             @change="filesChange($event)"
             @click="(e) => (e.target.value = null)"
-            class="hidden" />
+            class="hidden"
+          />
+        </div>
 
-          <div
-            class="underline cursor-pointer w-max py-3"
-            @click="handleDownload">
-            {{ $t("download_file") }}
-          </div>
+        <!-- Download template -->
+        <div
+          class="flex items-center gap-1.5 text-sm font-black underline cursor-pointer select-none my-3"
+          @click="handleDownload"
+        >
+          <UIcon name="i-lucide-download" class="w-4 h-4" />
+          <span>{{ $t("download_file") }}</span>
         </div>
-      </div>
-      <div v-if="listVocabBackUp?.length" class="flex justify-center">
-        <div class="w-[600px]">
-          <div class="flex justify-between items-center">
-            <div>
-              <UInput
-                v-model.lazy="filter"
-                size="xl"
-                :placeholder="$t('filter_title')" />
-              <button
-                @click="handleFilter"
-                class="dark:bg-white text-black bg-[#e2e3ee] px-[12px] py-[8px] rounded ml-1 cursor-pointer">
-                Go
-              </button>
-            </div>
-            <UButton
-              v-if="listIdDelete.length"
-              color="error"
-              class="cursor-pointer font-bold"
-              @click="deleteMany"
-              >{{ $t("delete_all") }}({{ listIdDelete.length }})</UButton
+
+        <!-- UModal for Add/Edit -->
+        <UModal
+          v-if="openModal"
+          :open="openModal"
+          :title="modeEdit ? $t('edit_vocab') : $t('add_vocab')"
+          :close="{
+            color: 'error',
+            class: 'rounded-full',
+            onClick: closeModal,
+          }"
+          :ui="{ footer: 'justify-end' }"
+        >
+          <template #body>
+            <UForm
+              :schema="schema"
+              :state="vocabulary"
+              class="space-y-4"
+              @submit="onSubmit"
             >
-          </div>
-          <div
-            class="border-2 dark:border-white border-black rounded px-5 mt-3 max-h-[70vh] overflow-auto mb-8">
-            <div
-              v-for="item of listVocab"
-              :key="item.id"
-              class="py-2 flex justify-between">
-              <div class="flex gap-5 items-center">
-                <input
-                  class="w-5 h-5 cursor-pointer"
-                  type="checkbox"
-                  @change="onCheckedItems($event, item.id)" />
-                <span class="font-bold">{{ item.word }}</span>
-                <span class="bg-zinc-600 text-white px-2 rounded font-bold">{{
-                  item.type
-                }}</span>
-              </div>
-              <div class="flex gap-2">
+              <UFormField name="word">
+                <div class="dark:text-white text-black mb-2">
+                  {{ $t("word") }}(*)
+                </div>
+                <UInput v-model="vocabulary.word" class="w-full" />
+              </UFormField>
+              <UFormField name="type">
+                <div class="dark:text-white text-black mb-2">
+                  {{ $t("type") }}(*)
+                </div>
+                <USelect
+                  v-model="vocabulary.type"
+                  class="w-full"
+                  :items="TYPE_VOCAB"
+                />
+              </UFormField>
+              <UFormField name="meaning">
+                <div class="dark:text-white text-black mb-2">
+                  {{ $t("meaning") }}(*)
+                </div>
+                <UInput v-model="vocabulary.meaning" class="w-full" />
+                <p class="text-yellow-300 pt-3">
+                  {{ $t("note_add") }}
+                </p>
+              </UFormField>
+              <UFormField name="example">
+                <div class="dark:text-white text-black mb-2">
+                  {{ $t("example") }}(*)
+                </div>
+                <UInput v-model="vocabulary.example" class="w-full" />
+              </UFormField>
+              <UFormField name="description">
+                <div class="dark:text-white text-black mb-2">
+                  {{ $t("description") }}(*)
+                </div>
+                <UTextarea v-model="vocabulary.description" class="w-full" />
+              </UFormField>
+
+              <div class="flex justify-end gap-3 pt-3">
                 <UButton
-                  @click="editVocab(item)"
-                  class="cursor-pointer"
-                  icon="i-lucide-edit"
-                  size="md"
+                  class="cursor-pointer font-bold border-2 border-black dark:border-white rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
                   color="neutral"
-                  variant="subtle" />
+                  @click="closeModal"
+                  variant="subtle"
+                >
+                  {{ $t("cancel") }}
+                </UButton>
                 <UButton
-                  @click="deleteVocab(item.id)"
-                  class="cursor-pointer"
-                  icon="i-lucide-trash"
-                  size="md"
-                  color="error"
-                  variant="solid" />
+                  class="cursor-pointer font-black border-2 border-black dark:border-white rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                  type="submit"
+                  color="neutral"
+                >
+                  {{ $t("submit") }}
+                </UButton>
               </div>
-            </div>
+            </UForm>
+          </template>
+        </UModal>
+
+        <!-- Search Filter and Mass Actions -->
+        <div
+          v-if="listVocabBackUp?.length"
+          class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 mb-3 text-left"
+        >
+          <div>
+            <UInput
+              v-model.lazy="filter"
+              size="xl"
+              :placeholder="$t('filter_title')"
+            />
+            <button
+              @click="handleFilter"
+              class="dark:bg-white text-black bg-white hover:bg-gray-50 px-[12px] py-[6px] rounded ml-1 border-2 border-black cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all"
+            >
+              Go
+            </button>
           </div>
+
+          <UButton
+            v-if="listIdDelete.length"
+            color="error"
+            class="cursor-pointer font-black border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all px-4 py-2 text-sm uppercase tracking-wider"
+            @click="deleteMany"
+          >
+            {{ $t("delete_all") }} ({{ listIdDelete.length }})
+          </UButton>
         </div>
-      </div>
-      <div
-        v-if="listVocabBackUp === null && listVocab === null"
-        class="flex justify-center mb-8">
-        <div class="w-[600px]">
+
+        <!-- Vocabulary Cards List -->
+        <div
+          v-if="listVocab"
+          class="border-2 dark:border-white border-black rounded px-5 mt-3 max-h-[70vh] overflow-auto mb-8"
+        >
           <div
-            class="border-2 dark:border-white border-black rounded px-5 mt-3 min-h-[70vh] overflow-auto py-4">
-            <div
-              v-for="item of Array(14)"
-              class="flex items-center gap-4 justify-between py-2">
-              <div class="flex gap-4 items-center">
-                <USkeleton class="h-6 w-6 rounded-sm" />
-                <USkeleton class="h-8 w-22 rounded-sm" />
-                <USkeleton class="h-8 w-12 rounded-sm" />
-              </div>
-              <div class="flex gap-4">
-                <USkeleton class="h-8 w-8 rounded-sm" />
-                <USkeleton class="h-8 w-8 rounded-sm" />
-              </div>
+            v-for="item of listVocab"
+            :key="item.id"
+            class="py-1 flex justify-between"
+          >
+            <div class="flex gap-5 items-center">
+              <input
+                class="w-5 h-5 cursor-pointer"
+                type="checkbox"
+                @change="onCheckedItems($event, item.id)"
+              />
+              <span class="font-bold">{{ item.word }}</span>
+              <span class="bg-zinc-600 text-white px-2 rounded font-bold">{{
+                item.type
+              }}</span>
+            </div>
+
+            <div class="flex gap-2">
+              <UButton
+                @click="editVocab(item)"
+                class="cursor-pointer font-bold border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
+                icon="i-lucide-edit"
+                size="md"
+                color="neutral"
+                variant="subtle"
+              />
+              <UButton
+                @click="deleteVocab(item.id)"
+                class="cursor-pointer font-bold border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
+                icon="i-lucide-trash"
+                size="md"
+                color="error"
+                variant="solid"
+              />
             </div>
           </div>
         </div>
-      </div>
-      <div
-        v-if="
-          (!listVocabBackUp?.length && listVocabBackUp !== null) ||
-          (!listVocab?.length && listVocab !== null)
-        "
-        class="flex justify-center mb-8">
-        <div class="mt-20">
-          <p class="text-center font-bold text-lg">{{ $t("no_data") }}</p>
-          <img src="~/assets/images/cloud.png" alt="cloud" width="200" />
+
+        <!-- Skeleton Loading State -->
+        <div
+          v-if="listVocabBackUp === null && listVocab === null"
+          class="flex flex-col gap-4 mb-8"
+        >
+          <div
+            v-for="(item, index) of Array(8)"
+            :key="index"
+            class="bg-white dark:bg-[#212121] border border-black dark:border-white rounded-lg p-4 flex justify-between items-center shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
+          >
+            <div class="flex gap-4 items-center">
+              <USkeleton class="h-5 w-5 rounded-sm" />
+              <USkeleton class="h-6 w-24 rounded-sm" />
+              <USkeleton class="h-5 w-12 rounded-sm" />
+            </div>
+            <div class="flex gap-2">
+              <USkeleton class="h-8 w-8 rounded-sm" />
+              <USkeleton class="h-8 w-8 rounded-sm" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div
+          v-if="
+            (!listVocabBackUp?.length && listVocabBackUp !== null) ||
+            (!listVocab?.length && listVocab !== null)
+          "
+          class="flex justify-center mb-8 py-10"
+        >
+          <div class="flex flex-col items-center">
+            <p
+              class="text-center font-black text-xl mb-4 text-black dark:text-white"
+            >
+              {{ $t("no_data") }}
+            </p>
+            <img
+              src="~/assets/images/cloud.png"
+              alt="cloud"
+              width="180"
+              class="filter drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+            />
+          </div>
         </div>
       </div>
     </template>
     <NoLogin v-else />
   </template>
-  <!-- <Adsense /> -->
 </template>
 
 <script setup>
@@ -435,7 +493,7 @@ const handleFilter = () => {
     listVocab.value = listVocabBackUp.value;
   } else {
     listVocab.value = listVocabBackUp.value.filter((i) =>
-      i.word.toLowerCase().includes(filter.value.toLowerCase())
+      i.word.toLowerCase().includes(filter.value.toLowerCase()),
     );
   }
 };
