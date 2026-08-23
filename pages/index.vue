@@ -175,13 +175,13 @@ const formattedBanner = computed(() => {
   const text = t("banner") || "";
   return text
     .replace(/(từ vựng)/gi, '<span class="text-[#be185d] font-black">$1</span>')
-    .replace(/(Vocabulary)/gi, '<span class="text-[#d946ef] font-black">$1</span>');
+    .replace(/(Vocabulary)/gi, '<span class="text-[#be185d] font-black">$1</span>');
 });
 
 // Format the "why" title: highlight "VOCABVIBES?" in magenta pink
 const formattedWhy = computed(() => {
   const text = t("why") || "";
-  return text.replace(/(VOCABVIBES\??)/gi, '<span class="text-[#d946ef] font-black">$1</span>');
+  return text.replace(/(VOCABVIBES\??)/gi, '<span class="text-[#be185d] font-black">$1</span>');
 });
 
 useHead({
