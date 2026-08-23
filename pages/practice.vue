@@ -1,15 +1,64 @@
 <template>
   <template v-if="isLogin !== null">
     <div class="flex justify-center mt-20" v-if="isLogin">
-      <div v-if="!modePractice" class="w-[600px]">
-        <p class="font-bold text-xl">
-          {{ $t("title_practice") }}
-        </p>
-        <button
-          @click="onPractice"
-          class="bg-[#FE1414] text-white font-bold rounded px-3 py-2 cursor-pointer mt-5">
-          {{ $t("practice_btn") }}
-        </button>
+      <div v-if="!modePractice" class="w-full max-w-4xl px-4 my-6">
+        <!-- Neobrutalist Daily Challenge Banner -->
+        <div class="bg-[#be185d] border-2 border-black rounded shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] -rotate-2 p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden text-left">
+          
+          <!-- Subtle background decorative circle -->
+          <div class="absolute -top-10 -left-10 w-24 h-24 bg-pink-400 rounded-full opacity-40"></div>
+
+          <!-- Left Column: Copy & Action -->
+          <div class="flex flex-col items-start relative z-10 md:w-3/5">
+            <!-- Event Badge -->
+            <div class="inline-block bg-[#1a1a1a] text-white font-mono text-[10px] font-bold px-2 py-1 tracking-wider uppercase mb-5">
+              {{ locale === 'en' ? '# DAILY EVENT' : '# SỰ KIỆN HẰNG NGÀY' }}
+            </div>
+            
+            <!-- Title -->
+            <div class="font-black text-white leading-none mb-6">
+              <div class="text-3xl md:text-4xl uppercase tracking-wide">
+                {{ locale === 'en' ? 'DAILY' : 'THỬ THÁCH' }}
+              </div>
+              <div class="inline-block bg-white text-black border-2 border-black px-4 py-1.5 font-black text-2xl md:text-3.5xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] mt-2 uppercase tracking-wider rotate-1">
+                {{ locale === 'en' ? 'CHALLENGE' : 'HẰNG NGÀY' }}
+              </div>
+            </div>
+
+            <!-- Description -->
+            <p class="text-white text-sm md:text-base font-bold mb-8 max-w-lg leading-relaxed">
+              {{ $t("title_practice") }}
+            </p>
+
+            <!-- Play button -->
+            <button
+              @click="onPractice"
+              class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-black font-extrabold px-6 py-3.5 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-base uppercase tracking-wider select-none">
+              <span>{{ $t("practice_btn") }}</span>
+              <span class="ml-2">⚡</span>
+            </button>
+          </div>
+
+          <!-- Right Column: Interactive Brain Card Graphic -->
+          <div class="md:w-2/5 flex justify-center items-center relative z-10 w-full">
+            <div class="relative bg-[#fce7f3] border-2 border-black p-4 rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rotate-6 w-[180px] h-[180px] md:w-[220px] md:h-[220px] flex items-center justify-center select-none">
+              <!-- Grid background lines -->
+              <div class="absolute inset-2 border border-[#f472b6] opacity-30 pointer-events-none flex items-center justify-center">
+                <div class="w-full h-[1px] bg-[#f472b6]"></div>
+                <div class="h-full w-[1px] bg-[#f472b6] absolute"></div>
+              </div>
+              
+              <!-- Brain icon -->
+              <UIcon name="i-lucide-brain" class="w-24 h-24 text-[#be185d] relative z-10" />
+
+              <!-- Progress Indicator -->
+              <div class="absolute bottom-2 left-2 bg-[#1a1a1a] text-white font-mono text-[9px] font-black px-2 py-1 uppercase tracking-wider border border-black z-20">
+                Progress: 75%
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
       <div v-else class="w-[600px]">
         <div
@@ -99,7 +148,7 @@ defineShortcuts({
     input.value?.inputRef?.focus();
   },
 });
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const toast = useToast();
 const router = useRouter();
 const modePractice = ref(false);

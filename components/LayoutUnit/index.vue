@@ -1,35 +1,27 @@
 <template>
   <Loading :loading="isLoading" />
   <header
-    class="sticky top-0 border-b-2 dark:border-[#3a3a3a] border-[#e5e5e5] bg-white dark:bg-[#212121]">
+    class="sticky top-0 z-50 border-b-2 dark:border-[#3a3a3a] border-[#e5e5e5] bg-white dark:bg-[#212121]">
     <div
       class="flex row-start-1 gap-6 items-center justify-between w-full font-pixel container mx-auto py-3 text-md max-lg:px-2">
       <div class="lg:hidden" @click="handleMenuMobile">
         <UIcon name="i-lucide-align-justify" class="size-8 mt-2" />
       </div>
       <NuxtLink
-        class="flex items-center justify-center gap-3 cursor-pointer ml-3 lg:hidden"
+        class="flex items-center justify-center cursor-pointer ml-3 lg:hidden"
         to="/">
-        <img
-          src="~/assets/images/logo.png"
-          alt="logo"
-          class="lg:w-[40px] lg:h-[40px] max-lg:w-[30px] max-lg:h-[30px]"
-          width="40"
-          height="40" />
-        <p class="font-bold max-lg:text-md lg:text-lg">VOCABVIBES</p>
+        <div class="bg-[#be185d] text-white font-black px-3 py-1.5 border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-sm tracking-wider uppercase font-sans select-none">
+          VOCABVIBES
+        </div>
       </NuxtLink>
 
       <div class="max-lg:hidden flex items-center justify-between gap-3">
         <NuxtLink
-          class="flex items-center justify-center gap-3 cursor-pointer ml-3"
+          class="flex items-center justify-center cursor-pointer ml-3"
           to="/">
-          <img
-            src="~/assets/images/logo.png"
-            alt="logo"
-            class="lg:w-[40px] lg:h-[40px] max-lg:w-[30px] max-lg:h-[30px]"
-            width="40"
-            height="40" />
-          <p class="font-bold max-lg:text-md lg:text-lg">VOCABVIBES</p>
+          <div class="bg-[#be185d] text-white font-black px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-base tracking-widest uppercase font-sans select-none">
+            VOCABVIBES
+          </div>
         </NuxtLink>
         <NuxtLink
           to="/"
@@ -104,16 +96,11 @@
         <template #header>
           <div class="lg:hidden flex justify-between items-center w-full">
             <NuxtLink
-              class="flex items-center justify-center gap-3 cursor-pointer"
+              class="flex items-center justify-center cursor-pointer"
               to="/">
-              <img
-                src="~/assets/images/logo.png"
-                alt="logo"
-                width="40"
-                height="40" />
-              <p class="font-bold text-lg text-black dark:text-white">
+              <div class="bg-[#be185d] text-white font-black px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-base tracking-widest uppercase font-sans select-none">
                 VOCABVIBES
-              </p>
+              </div>
             </NuxtLink>
             <UIcon
               name="i-lucide-circle-x"
@@ -194,7 +181,7 @@
       </UModal>
     </div>
   </header>
-  <div class="h-[91vh] max-lg:px-5 lg:px-56 pt-6">
+  <div class="min-h-[91vh] max-lg:px-5 lg:px-56 pt-6">
     <div class="w-full">
       <slot></slot>
     </div>
