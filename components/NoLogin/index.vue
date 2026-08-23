@@ -30,7 +30,7 @@
         <!-- CTA -->
         <NuxtLink
           to="/"
-          class="inline-flex items-center gap-2 bg-[#d946ef] hover:bg-[#c026d3] text-white font-black px-7 py-3 border-2 border-black rounded-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all text-sm uppercase tracking-wider">
+          class="inline-flex items-center gap-2 bg-[#be185d] hover:bg-[#ca1a63] text-white font-black px-7 py-3 border-2 border-black rounded-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all text-sm uppercase tracking-wider">
           <UIcon name="i-lucide-arrow-left" class="w-4 h-4" />
           {{ $t("back_to_home") }}
         </NuxtLink>
