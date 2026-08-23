@@ -157,18 +157,6 @@
             class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-black font-extrabold px-8 py-4.5 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-lg uppercase tracking-wider font-mono">
             {{ locale === 'en' ? 'JOIN NOW' : 'THAM GIA NGAY' }}
           </NuxtLink>
-
-          <!-- Avatar stack with +10k badge -->
-          <div class="flex items-center gap-3 bg-black/20 p-2.5 rounded-full border border-white/20 backdrop-blur-sm">
-            <div class="flex -space-x-3">
-              <img class="w-10 h-10 rounded-full border-2 border-black object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="User 1" />
-              <img class="w-10 h-10 rounded-full border-2 border-black object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="User 2" />
-              <img class="w-10 h-10 rounded-full border-2 border-black object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="User 3" />
-            </div>
-            <div class="bg-black text-white text-xs font-black px-3.5 py-2 rounded-full border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              +10k
-            </div>
-          </div>
         </div>
       </div>
     </div>

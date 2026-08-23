@@ -1,7 +1,7 @@
 <template>
   <template v-if="isLogin !== null">
-    <div class="flex justify-center mt-20" v-if="isLogin">
-      <div v-if="!modePractice" class="w-full max-w-4xl px-4 my-6">
+    <div class="flex justify-center" v-if="isLogin">
+      <div v-if="!modePractice" class="mt-10 w-full max-w-4xl px-4 my-6 flex flex-col gap-6">
         <!-- Neobrutalist Daily Challenge Banner -->
         <div class="bg-[#be185d] border-2 border-black rounded shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] -rotate-2 p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden text-left">
           
@@ -59,15 +59,26 @@
           </div>
 
         </div>
+
+        <!-- Neobrutalist Vibe Tip Box -->
+        <div class="bg-[#ffedd5] border-2 border-black rounded-lg p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-left flex flex-col gap-2 self-start mt-5">
+          <div class="flex items-center gap-2 text-amber-800 font-extrabold text-sm uppercase tracking-wider">
+            <UIcon name="i-lucide-lightbulb" class="w-5 h-5 text-amber-800" />
+            <span>VIBE TIP</span>
+          </div>
+          <p class="text-amber-950 text-sm md:text-base font-bold leading-relaxed">
+            {{ locale === 'en' ? 'Use Spaced Repetition (spaced intervals) to help your brain retain information 3 times longer than normal. Practice regularly every day!' : 'Dùng phương pháp "Spaced Repetition" (Lặp lại ngắt quãng) giúp não bộ ghi nhớ thông tin lâu gấp 3 lần bình thường. Hãy luyện tập đều đặn mỗi ngày!' }}
+          </p>
+        </div>
       </div>
-      <div v-else class="w-[600px]">
+      <div v-else class="w-[600px] mt-20">
         <div
           :class="`border-2 rounded p-4 ${
             showAnswer !== null
               ? showAnswer
-                ? 'border-green-500'
-                : 'border-red-500'
-              : 'dark:border-white border-black'
+                ? 'border-green-500 shadow-[6px_6px_0px_0px_#22c55e]'
+                : 'border-red-500 shadow-[6px_6px_0px_0px_#ef4444]'
+              : 'border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.15)]'
           }`">
           <p class="font-bold text-xl mb-3">
             <span
