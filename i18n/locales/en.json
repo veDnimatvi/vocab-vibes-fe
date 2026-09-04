@@ -103,5 +103,20 @@
   "readyBarriers": "Ready to break language barriers?",
   "watchFull": "▶ Watch full demo on YouTube",
   "howItWork": "See how it works",
-  "permissionDenied": "Permission Denied"
+  "permissionDenied": "Permission Denied",
+
+  "payment_modal_title": "Your Order",
+  "payment_modal_subtitle": "",
+  "payment_transfer_instruction": "Please transfer money with the following information:",
+  "payment_bank_label": "Bank",
+  "payment_bank_value": "TPBank",
+  "payment_account_label": "Account No.",
+  "payment_account_value": "04047563801",
+  "payment_owner_label": "Account Owner",
+  "payment_owner_value": "NGUYEN THANH THIEN",
+  "payment_content_label": "Transfer Note",
+  "payment_amount_label": "Amount",
+  "payment_qr_divider": "Or scan QR",
+  "payment_qr_hint": "Scan the QR code below (recommended via banking apps, VNPAY, ShopeePay, etc.)"
 }
+

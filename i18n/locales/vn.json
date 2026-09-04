@@ -104,5 +104,20 @@
   "readyBarriers": "Sẵn sàng bứt phá ngôn ngữ?",
   "watchFull": "▶ Xem demo đầy đủ trên YouTube",
   "howItWork": "Xem cách nó hoạt động",
-  "permissionDenied": "Truy cập bị hạn chế"
+  "permissionDenied": "Truy cập bị hạn chế",
+
+  "payment_modal_title": "Đơn hàng",
+  "payment_modal_subtitle": "của bạn",
+  "payment_transfer_instruction": "Vui lòng chuyển khoản với thông tin sau:",
+  "payment_bank_label": "Ngân hàng",
+  "payment_bank_value": "TPBank",
+  "payment_account_label": "Số TK",
+  "payment_account_value": "04047563801",
+  "payment_owner_label": "Chủ TK",
+  "payment_owner_value": "NGUYEN THANH THIEN",
+  "payment_content_label": "Nội dung",
+  "payment_amount_label": "Số tiền",
+  "payment_qr_divider": "Hoặc quét QR",
+  "payment_qr_hint": "Quét mã QR sau (khuyến khích quét bằng các App ngân hàng, một số ví điện tử VNPAY, ShopeePay,...)"
 }
+

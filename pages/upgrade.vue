@@ -178,43 +178,44 @@
         :ui="{ footer: 'justify-end' }">
         <template #header>
           <div class="flex items-center gap-2">
-            <span class="bg-[#fde047] border-2 border-black text-black font-black px-2 py-0.5 text-xs rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-wider select-none">Đơn hàng</span>
+            <span class="bg-[#fde047] border-2 border-black text-black font-black px-2 py-0.5 text-xs rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-wider select-none">{{ $t('payment_modal_title') }}</span>
+            <p v-if="$t('payment_modal_subtitle')" class="font-black text-black dark:text-white text-base">{{ $t('payment_modal_subtitle') }}</p>
           </div>
         </template>
         <template #body>
           <div class="dark:text-white text-black space-y-3">
-            <p class="font-bold text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Vui lòng chuyển khoản với thông tin sau:</p>
+            <p class="font-bold text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">{{ $t('payment_transfer_instruction') }}</p>
 
             <div class="flex items-center gap-3 bg-gray-50 dark:bg-[#1a1a1a] border-2 border-black dark:border-white rounded-lg p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              <span class="text-xs font-black uppercase tracking-wider text-gray-400 w-28 shrink-0">Ngân hàng</span>
-              <span class="font-black text-black dark:text-white">TPBank</span>
+              <span class="text-xs font-black uppercase tracking-wider text-gray-400 w-32 shrink-0">{{ $t('payment_bank_label') }}</span>
+              <span class="font-black text-black dark:text-white">{{ $t('payment_bank_value') }}</span>
             </div>
             <div class="flex items-center gap-3 bg-gray-50 dark:bg-[#1a1a1a] border-2 border-black dark:border-white rounded-lg p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              <span class="text-xs font-black uppercase tracking-wider text-gray-400 w-28 shrink-0">Số TK</span>
-              <span class="font-black text-black dark:text-white tracking-widest">04047563801</span>
+              <span class="text-xs font-black uppercase tracking-wider text-gray-400 w-32 shrink-0">{{ $t('payment_account_label') }}</span>
+              <span class="font-black text-black dark:text-white tracking-widest">{{ $t('payment_account_value') }}</span>
             </div>
             <div class="flex items-center gap-3 bg-gray-50 dark:bg-[#1a1a1a] border-2 border-black dark:border-white rounded-lg p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              <span class="text-xs font-black uppercase tracking-wider text-gray-400 w-28 shrink-0">Chủ TK</span>
-              <span class="font-black text-black dark:text-white">NGUYEN THANH THIEN</span>
+              <span class="text-xs font-black uppercase tracking-wider text-gray-400 w-32 shrink-0">{{ $t('payment_owner_label') }}</span>
+              <span class="font-black text-black dark:text-white">{{ $t('payment_owner_value') }}</span>
             </div>
             <div class="flex items-center gap-3 bg-[#fdf4ff] dark:bg-[#2d1b36] border-2 border-[#d946ef] rounded-lg p-3 shadow-[2px_2px_0px_0px_rgba(217,70,239,1)]">
-              <span class="text-xs font-black uppercase tracking-wider text-[#d946ef] w-28 shrink-0">Nội dung</span>
+              <span class="text-xs font-black uppercase tracking-wider text-[#d946ef] w-32 shrink-0">{{ $t('payment_content_label') }}</span>
               <span class="font-black text-black dark:text-white tracking-wider">{{ messageCode }}</span>
             </div>
             <div class="flex items-center gap-3 bg-[#f0fdf4] dark:bg-[#0d2318] border-2 border-green-500 rounded-lg p-3 shadow-[2px_2px_0px_0px_#22c55e]">
-              <span class="text-xs font-black uppercase tracking-wider text-green-600 w-28 shrink-0">Số tiền</span>
+              <span class="text-xs font-black uppercase tracking-wider text-green-600 w-32 shrink-0">{{ $t('payment_amount_label') }}</span>
               <span class="font-black text-green-600 text-lg">{{ price.toLocaleString("vi-VN") }}đ</span>
             </div>
 
             <!-- Divider -->
             <div class="flex items-center gap-3 my-2">
               <div class="flex-grow border-t-2 border-dashed border-black dark:border-white"></div>
-              <span class="text-xs font-black uppercase tracking-widest text-gray-400">Hoặc quét QR</span>
+              <span class="text-xs font-black uppercase tracking-widest text-gray-400">{{ $t('payment_qr_divider') }}</span>
               <div class="flex-grow border-t-2 border-dashed border-black dark:border-white"></div>
             </div>
 
             <p class="text-xs font-bold text-gray-500 dark:text-gray-400 text-center">
-              Quét mã QR sau (khuyến khích quét bằng các App ngân hàng, một số ví điện tử VNPAY, ShopeePay,...)
+              {{ $t('payment_qr_hint') }}
             </p>
 
             <!-- QR image -->
