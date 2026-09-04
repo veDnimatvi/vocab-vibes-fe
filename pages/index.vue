@@ -3,100 +3,149 @@
     <!-- Hero Section -->
     <div class="max-w-5xl mx-auto px-4 text-center lg:text-left py-10 lg:py-16">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
         <!-- Left Column: Copy & Actions -->
-        <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+        <div
+          class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left"
+        >
           <!-- Skewed Badge -->
-          <div class="inline-block bg-[#fde047] text-black font-black px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-2 mb-8 text-xs uppercase tracking-widest font-mono">
+          <div
+            class="inline-block bg-[#fde047] text-black font-black px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-2 mb-8 text-xs uppercase tracking-widest font-mono"
+          >
             #1 Daily Learning App
           </div>
-          
+
           <!-- Heading -->
-          <h1 class="text-4xl md:text-6xl font-black leading-[1.15] mb-8 text-black dark:text-white tracking-tight">
+          <h1
+            class="text-4xl md:text-6xl font-black leading-[1.15] mb-8 text-black dark:text-white tracking-tight"
+          >
             <span v-html="formattedBanner"></span>
           </h1>
-          
+
           <!-- Intro Description -->
-          <p class="text-lg text-gray-600 dark:text-gray-300 mb-10 max-w-xl leading-relaxed">
+          <p
+            class="text-lg text-gray-600 dark:text-gray-300 mb-10 max-w-xl leading-relaxed"
+          >
             {{ $t("intro") }}
           </p>
-          
+
           <!-- Neobrutalism Buttons -->
           <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
             <NuxtLink
               to="/practice"
-              class="inline-flex items-center justify-center bg-[#be185d] hover:bg-[#ca1a63] text-white font-extrabold px-8 py-4.5 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-base select-none">
+              class="inline-flex items-center justify-center bg-[#be185d] hover:bg-[#ca1a63] text-white font-extrabold px-8 py-4.5 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-base select-none"
+            >
               <span>{{ $t("let_start") }}</span>
               <UIcon name="i-lucide-arrow-right" class="w-5 h-5 ml-2.5" />
             </NuxtLink>
-            
+
             <a
               href="#why-section"
-              class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-black font-extrabold px-8 py-4.5 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-base select-none">
-              {{ locale === 'en' ? 'See how it works' : 'Xem cách nó hoạt động' }}
+              class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-black font-extrabold px-8 py-4.5 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-base select-none"
+            >
+              {{ $t("howItWork") }}
             </a>
           </div>
         </div>
 
         <!-- Right Column: Interactive Graphic Card -->
         <div class="lg:col-span-5 flex justify-center lg:justify-end">
-          <div class="relative w-[340px] h-[340px] md:w-[380px] md:h-[380px] bg-purple-50 dark:bg-purple-950/20 border-2 border-dashed border-purple-200 dark:border-purple-800 rounded-full flex items-center justify-center">
-            
+          <div
+            class="relative w-[340px] h-[340px] md:w-[380px] md:h-[380px] bg-purple-50 dark:bg-purple-950/20 border-2 border-dashed border-purple-200 dark:border-purple-800 rounded-full flex items-center justify-center"
+          >
             <!-- Floating shapes -->
-            <div class="absolute top-10 left-2 w-8 h-8 bg-[#d946ef] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -rotate-12"></div>
-            <div class="absolute bottom-16 right-2 w-6 h-6 bg-purple-500 border-2 border-black rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
-            <div class="absolute top-24 right-4 w-7 h-7 bg-[#d946ef] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-45"></div>
+            <div
+              class="absolute top-10 left-2 w-8 h-8 bg-[#d946ef] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -rotate-12"
+            ></div>
+            <div
+              class="absolute bottom-16 right-2 w-6 h-6 bg-purple-500 border-2 border-black rounded-full shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+            ></div>
+            <div
+              class="absolute top-24 right-4 w-7 h-7 bg-[#d946ef] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-45"
+            ></div>
 
             <!-- Streak badge -->
-            <div class="absolute -top-4 -right-2 bg-[#78350f] text-amber-200 font-extrabold px-3 py-3 border-2 border-black rounded-full shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] rotate-12 text-center flex flex-col items-center justify-center w-20 h-20 z-10 select-none">
+            <div
+              class="absolute -top-4 -right-2 bg-[#78350f] text-amber-200 font-extrabold px-3 py-3 border-2 border-black rounded-full shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] rotate-12 text-center flex flex-col items-center justify-center w-20 h-20 z-10 select-none"
+            >
               <span class="text-xs leading-none uppercase">100+</span>
-              <span class="text-[9px] leading-none uppercase tracking-wider">Streak</span>
+              <span class="text-[9px] leading-none uppercase tracking-wider"
+                >Streak</span
+              >
             </div>
 
             <!-- Neobrutalist Zine Card -->
-            <div class="relative bg-white text-black w-[280px] md:w-[310px] p-6 border-2 border-black rounded shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-3 select-none text-left">
+            <div
+              class="relative bg-white text-black w-[280px] md:w-[310px] p-6 border-2 border-black rounded shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rotate-3 select-none text-left"
+            >
               <div class="flex justify-between items-start mb-4">
-                <span class="text-[10px] font-black tracking-widest text-[#d946ef] uppercase font-mono">Word of the Day</span>
-                <div class="w-7 h-7 rounded-full border border-black flex items-center justify-center bg-white">
+                <span
+                  class="text-[10px] font-black tracking-widest text-[#d946ef] uppercase font-mono"
+                  >Word of the Day</span
+                >
+                <div
+                  class="w-7 h-7 rounded-full border border-black flex items-center justify-center bg-white"
+                >
                   <UIcon name="i-lucide-bookmark" class="w-4 h-4 text-black" />
                 </div>
               </div>
-              
-              <h2 class="text-3xl font-extrabold mb-1 tracking-tight text-black">Serendipity</h2>
-              <div class="text-xs text-gray-500 font-mono mb-4">/ˌserənˈdipədē/ • n.</div>
-              
+
+              <h2
+                class="text-3xl font-extrabold mb-1 tracking-tight text-black"
+              >
+                Serendipity
+              </h2>
+              <div class="text-xs text-gray-500 font-mono mb-4">
+                /ˌserənˈdipədē/ • n.
+              </div>
+
               <hr class="border-t-2 border-[#d946ef] mb-4" />
-              
+
               <p class="text-sm font-medium text-gray-800 leading-relaxed mb-6">
                 Sự may mắn khi tìm thấy những điều giá trị một cách tình cờ.
               </p>
-              
+
               <div class="flex gap-2">
-                <span class="text-[10px] font-black px-2.5 py-1 border border-[#d946ef] text-[#d946ef] rounded-full uppercase tracking-wider font-mono bg-white">Literature</span>
-                <span class="text-[10px] font-black px-2.5 py-1 border border-purple-500 text-purple-500 rounded-full uppercase tracking-wider font-mono bg-white">Nature</span>
+                <span
+                  class="text-[10px] font-black px-2.5 py-1 border border-[#d946ef] text-[#d946ef] rounded-full uppercase tracking-wider font-mono bg-white"
+                  >Literature</span
+                >
+                <span
+                  class="text-[10px] font-black px-2.5 py-1 border border-purple-500 text-purple-500 rounded-full uppercase tracking-wider font-mono bg-white"
+                  >Nature</span
+                >
               </div>
             </div>
           </div>
         </div>
-        
       </div>
     </div>
 
     <!-- Why Choose Us Section -->
-    <div id="why-section" class="-mx-5 lg:-mx-56 px-5 lg:px-56 py-16 lg:py-24 bg-[#18181b] text-white">
+    <div
+      id="why-section"
+      class="-mx-5 lg:-mx-56 px-5 lg:px-56 py-16 lg:py-24 bg-[#18181b] text-white"
+    >
       <div class="max-w-5xl mx-auto px-4">
-        
-        <div class="flex flex-col lg:flex-row justify-between items-start gap-8 mb-16 text-left">
-          <h2 class="text-4xl md:text-5xl font-black text-white lg:max-w-md leading-tight" v-html="formattedWhy"></h2>
+        <div
+          class="flex flex-col lg:flex-row justify-between items-start gap-8 mb-16 text-left"
+        >
+          <h2
+            class="text-4xl md:text-5xl font-black text-white lg:max-w-md leading-tight"
+            v-html="formattedWhy"
+          ></h2>
           <p class="text-lg text-gray-400 lg:max-w-xl leading-relaxed lg:pt-2">
             {{ $t("why_title") }}
           </p>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <!-- Card 1 -->
-          <div class="border-2 border-zinc-800 rounded-lg p-8 bg-transparent text-left flex flex-col h-full hover:border-[#f97316] transition-colors duration-300">
-            <div class="w-8 h-8 flex items-center justify-center font-extrabold text-black bg-[#f97316] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 text-sm">
+          <div
+            class="border-2 border-zinc-800 rounded-lg p-8 bg-transparent text-left flex flex-col h-full hover:border-[#f97316] transition-colors duration-300"
+          >
+            <div
+              class="w-8 h-8 flex items-center justify-center font-extrabold text-black bg-[#f97316] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 text-sm"
+            >
               1
             </div>
             <h3 class="text-xl font-black text-white mb-4">
@@ -108,8 +157,12 @@
           </div>
 
           <!-- Card 2 -->
-          <div class="border-2 border-zinc-800 rounded-lg p-8 bg-transparent text-left flex flex-col h-full hover:border-[#d946ef] transition-colors duration-300">
-            <div class="w-8 h-8 flex items-center justify-center font-extrabold text-black bg-[#d946ef] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 text-sm">
+          <div
+            class="border-2 border-zinc-800 rounded-lg p-8 bg-transparent text-left flex flex-col h-full hover:border-[#d946ef] transition-colors duration-300"
+          >
+            <div
+              class="w-8 h-8 flex items-center justify-center font-extrabold text-black bg-[#d946ef] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 text-sm"
+            >
               2
             </div>
             <h3 class="text-xl font-black text-white mb-4">
@@ -121,8 +174,12 @@
           </div>
 
           <!-- Card 3 -->
-          <div class="border-2 border-zinc-800 rounded-lg p-8 bg-transparent text-left flex flex-col h-full hover:border-[#8b5cf6] transition-colors duration-300">
-            <div class="w-8 h-8 flex items-center justify-center font-extrabold text-black bg-[#8b5cf6] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 text-sm">
+          <div
+            class="border-2 border-zinc-800 rounded-lg p-8 bg-transparent text-left flex flex-col h-full hover:border-[#8b5cf6] transition-colors duration-300"
+          >
+            <div
+              class="w-8 h-8 flex items-center justify-center font-extrabold text-black bg-[#8b5cf6] border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6 text-sm"
+            >
               3
             </div>
             <h3 class="text-xl font-black text-white mb-4">
@@ -133,29 +190,82 @@
             </p>
           </div>
         </div>
-        
+
+        <div class="mt-10">
+          <div
+            class="mb-3 inline-block bg-[#18181b] text-white font-black px-3 py-1 border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] -rotate-1 text-xs uppercase tracking-widest font-mono"
+          >
+            📺 Video about Us
+          </div>
+
+          <div
+            class="w-full border-2 border-black rounded-xl overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.2)] bg-black"
+          >
+            <div class="relative w-full" style="padding-bottom: 56.25%">
+              <iframe
+                class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/Dr9hqLHo6fM"
+                title="VocabVibes Demo"
+                frameborder="0"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                  web-share;
+                "
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              >
+              </iframe>
+            </div>
+          </div>
+
+          <div class="mt-4 flex justify-end">
+            <a
+              href="https://www.youtube.com/watch?v=Dr9hqLHo6fM"
+              target="_blank"
+              class="text-xs text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest"
+            >
+              {{ $t("watchFull") }}
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- CTA Section -->
-    <div class="-mx-5 lg:-mx-56 px-5 lg:px-56 py-20 lg:py-28 bg-[#6d28d9] text-white text-center relative overflow-hidden">
+    <div
+      class="-mx-5 lg:-mx-56 px-5 lg:px-56 py-20 lg:py-28 bg-[#6d28d9] text-white text-center relative overflow-hidden"
+    >
       <!-- Watermark Background Lines -->
-      <div class="absolute inset-0 select-none pointer-events-none flex flex-col justify-around items-center opacity-[0.08] font-black text-7xl md:text-8xl tracking-[0.2em] text-black uppercase">
+      <div
+        class="absolute inset-0 select-none pointer-events-none flex flex-col justify-around items-center opacity-[0.08] font-black text-7xl md:text-8xl tracking-[0.2em] text-black uppercase"
+      >
         <div>LEARN LEARN LEARN</div>
         <div>LEARN LEARN LEARN</div>
         <div>LEARN LEARN LEARN</div>
       </div>
 
-      <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center px-4">
-        <h2 class="text-4xl md:text-5xl font-black mb-12 tracking-tight leading-tight max-w-2xl">
-          {{ locale === 'en' ? 'Ready to break language barriers?' : 'Sẵn sàng bứt phá ngôn ngữ?' }}
+      <div
+        class="relative z-10 max-w-4xl mx-auto flex flex-col items-center px-4"
+      >
+        <h2
+          class="text-4xl md:text-5xl font-black mb-12 tracking-tight leading-tight max-w-2xl"
+        >
+          {{ $t("readyBarriers") }}
         </h2>
-        
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-6"
+        >
           <NuxtLink
             to="/practice"
-            class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-black font-extrabold px-8 py-4.5 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-lg uppercase tracking-wider font-mono">
-            {{ locale === 'en' ? 'JOIN NOW' : 'THAM GIA NGAY' }}
+            class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-black font-extrabold px-8 py-4.5 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-lg uppercase tracking-wider font-mono"
+          >
+            {{ $t("joinNow") }}
           </NuxtLink>
         </div>
       </div>
@@ -175,13 +285,19 @@ const formattedBanner = computed(() => {
   const text = t("banner") || "";
   return text
     .replace(/(từ vựng)/gi, '<span class="text-[#be185d] font-black">$1</span>')
-    .replace(/(Vocabulary)/gi, '<span class="text-[#be185d] font-black">$1</span>');
+    .replace(
+      /(Vocabulary)/gi,
+      '<span class="text-[#be185d] font-black">$1</span>',
+    );
 });
 
 // Format the "why" title: highlight "VOCABVIBES?" in magenta pink
 const formattedWhy = computed(() => {
   const text = t("why") || "";
-  return text.replace(/(VOCABVIBES\??)/gi, '<span class="text-[#be185d] font-black">$1</span>');
+  return text.replace(
+    /(VOCABVIBES\??)/gi,
+    '<span class="text-[#be185d] font-black">$1</span>',
+  );
 });
 
 useHead({

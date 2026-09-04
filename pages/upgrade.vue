@@ -54,7 +54,7 @@
               <div class="text-3xl font-black text-black dark:text-white">
                 {{ item.combo1.toLocaleString("vi-VN") }}
               </div>
-              <div class="text-xs font-bold text-gray-400 uppercase tracking-widest">VNĐ / tháng</div>
+              <div class="text-xs font-bold text-gray-400 uppercase tracking-widest">VNĐ / {{ $t("month") }}</div>
             </div>
 
             <!-- Description label -->
@@ -179,7 +179,6 @@
         <template #header>
           <div class="flex items-center gap-2">
             <span class="bg-[#fde047] border-2 border-black text-black font-black px-2 py-0.5 text-xs rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase tracking-wider select-none">Đơn hàng</span>
-            <p class="font-black text-black dark:text-white text-base">của bạn</p>
           </div>
         </template>
         <template #body>

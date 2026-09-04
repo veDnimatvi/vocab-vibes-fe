@@ -4,7 +4,7 @@
 
       <!-- Decorative tilted tag -->
       <div class="inline-block bg-[#fde047] border-2 border-black rounded px-4 py-1 text-xs font-black uppercase tracking-widest shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] mb-6 -rotate-1 select-none">
-        🔐 Truy cập bị hạn chế
+        🔐 {{ $t("permissionDenied") }}
       </div>
 
       <!-- Main card -->
