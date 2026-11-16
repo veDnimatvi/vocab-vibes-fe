@@ -40,6 +40,23 @@ export default defineNuxtConfig({
     },
     workbox: {
       navigateFallback: "/",
+      runtimeCaching: [
+        {
+          // Cache file phát âm từ Youdao (xem composables/useWordAudio.js).
+          // Youdao không có CORS -> response là opaque (status 0), vẫn cache được.
+          urlPattern: /^https:\/\/dict\.youdao\.com\/dictvoice\?.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "word-audio",
+            cacheableResponse: { statuses: [0, 200] },
+            expiration: {
+              maxEntries: 1000,
+              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 năm
+              purgeOnQuotaError: true,
+            },
+          },
+        },
+      ],
     },
     devOptions: {
       enabled: true,

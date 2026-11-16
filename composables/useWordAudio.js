@@ -1,92 +1,97 @@
 // Phát âm từ tiếng Anh.
-// Nguồn: Free Dictionary API (https://dictionaryapi.dev) - miễn phí, không cần key.
-// Fallback: Web Speech API (speechSynthesis) của trình duyệt.
 //
-// Cơ chế cache (3 tầng, dùng chung cho mọi trang):
-//  1. urlCache (Map word -> url|null), lưu vào localStorage => reload trang vẫn còn,
-//     không phải gọi lại API.
-//  2. audioElCache (Map url -> Audio) => file mp3 đã tải sẵn trong bộ nhớ, phát ngay.
-//  3. pendingFetch (Map word -> Promise) => tránh gọi API trùng khi đang tải dở.
+// Nguồn audio (thử lần lượt, link ghép trực tiếp - KHÔNG cần gọi API lấy link trước):
+//  1. Youdao dictvoice giọng Mỹ (~0.5s, có cả cụm từ)
+//  2. Youdao dictvoice giọng Anh
+//  3. Web Speech API (speechSynthesis) của trình duyệt - không cần mạng
+// (Google Translate TTS nhanh hơn nhưng trả 404 khi request có Referer từ site khác,
+//  mà thẻ <audio> trong trình duyệt luôn gửi Referer -> không dùng được.)
+//
+// Cache (3 tầng):
+//  1. audioCache (Map word -> Promise<Audio|null>): mp3 đã tải trong bộ nhớ của trang,
+//     phát lại là phát ngay, tránh tải trùng khi đang tải dở. Mất khi reload.
+//  2. Service Worker (workbox runtimeCaching trong nuxt.config.ts, cache "word-audio"):
+//     lưu file mp3 vào Cache Storage, CacheFirst 1 năm => reload/mở lại trình duyệt
+//     vẫn lấy từ máy, không cần mạng.
+//  3. localStorage (MISS_CACHE_KEY): danh sách từ Youdao KHÔNG có audio (7 ngày)
+//     => đi thẳng sang speechSynthesis, không phải chờ request lỗi.
 
-const AUDIO_CACHE_KEY = "vv_audio_cache_v1";
-const urlCache = new Map();
-const audioElCache = new Map();
-const pendingFetch = new Map();
-let cacheLoaded = false;
+const LOAD_TIMEOUT = 4000;
+const MISS_CACHE_KEY = "vv_audio_miss_v1";
+const MISS_TTL = 7 * 24 * 60 * 60 * 1000;
+const audioCache = new Map();
+let missCache = null; // { word: timestamp }
 let currentAudio = null;
 
 const normalize = (word) => (word || "").trim().toLowerCase();
 
-const loadCache = () => {
-  if (cacheLoaded || typeof window === "undefined") return;
-  cacheLoaded = true;
+const getMissCache = () => {
+  if (missCache) return missCache;
+  missCache = {};
   try {
-    const raw = localStorage.getItem(AUDIO_CACHE_KEY);
-    if (raw) {
-      Object.entries(JSON.parse(raw)).forEach(([k, v]) => urlCache.set(k, v));
+    const raw = JSON.parse(localStorage.getItem(MISS_CACHE_KEY) || "{}");
+    const now = Date.now();
+    for (const [k, ts] of Object.entries(raw)) {
+      if (now - ts < MISS_TTL) missCache[k] = ts;
     }
+    localStorage.removeItem("vv_audio_cache_v1"); // dọn cache của bản cũ
   } catch (error) {}
+  return missCache;
 };
 
-const saveCache = () => {
+const markMiss = (key) => {
+  // Offline thì không đánh dấu (lỗi do mạng, không phải do thiếu audio)
+  if (typeof navigator !== "undefined" && !navigator.onLine) return;
+  getMissCache()[key] = Date.now();
   try {
-    localStorage.setItem(
-      AUDIO_CACHE_KEY,
-      JSON.stringify(Object.fromEntries(urlCache)),
-    );
+    localStorage.setItem(MISS_CACHE_KEY, JSON.stringify(missCache));
   } catch (error) {}
 };
 
-const getAudioEl = (url) => {
-  if (!url) return null;
-  let audio = audioElCache.get(url);
-  if (!audio) {
-    audio = new Audio();
+const getSources = (word) => {
+  const q = encodeURIComponent(word);
+  return [
+    `https://dict.youdao.com/dictvoice?audio=${q}&type=2`, // type=2: giọng Mỹ
+    `https://dict.youdao.com/dictvoice?audio=${q}&type=1`, // type=1: giọng Anh
+  ];
+};
+
+// Tải 1 nguồn, resolve Audio khi phát được (canplay), null nếu lỗi/timeout
+const loadSource = (url) =>
+  new Promise((resolve) => {
+    const audio = new Audio();
+    let done = false;
+    const finish = (result) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      audio.oncanplay = null;
+      audio.onerror = null;
+      resolve(result);
+    };
+    const timer = setTimeout(() => finish(null), LOAD_TIMEOUT);
+    audio.oncanplay = () => finish(audio);
+    audio.onerror = () => finish(null);
     audio.preload = "auto";
     audio.src = url;
     audio.load();
-    audioElCache.set(url, audio);
-  }
-  return audio;
-};
-
-// Trả về url | null (không có audio) | undefined (lỗi mạng/server -> không cache)
-const requestAudioUrl = async (key) => {
-  try {
-    const res = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(key)}`,
-    );
-    if (res.status === 404) return null;
-    if (!res.ok) return undefined;
-    const data = await res.json();
-    const withAudio = data
-      .flatMap((entry) => entry.phonetics || [])
-      .filter((p) => p.audio);
-    // Ưu tiên giọng Mỹ (-us), sau đó Anh (-uk), rồi bất kỳ
-    const pick =
-      withAudio.find((p) => p.audio.includes("-us.")) ||
-      withAudio.find((p) => p.audio.includes("-uk.")) ||
-      withAudio[0];
-    return pick?.audio || null;
-  } catch (error) {
-    return undefined;
-  }
-};
-
-const fetchAudioUrl = (word) => {
-  loadCache();
-  const key = normalize(word);
-  if (urlCache.has(key)) return Promise.resolve(urlCache.get(key));
-  if (pendingFetch.has(key)) return pendingFetch.get(key);
-  const promise = requestAudioUrl(key).then((url) => {
-    if (url !== undefined) {
-      urlCache.set(key, url);
-      saveCache();
-    }
-    pendingFetch.delete(key);
-    return url ?? null;
   });
-  pendingFetch.set(key, promise);
+
+const loadAudio = (word) => {
+  const key = normalize(word);
+  if (!key || typeof window === "undefined") return Promise.resolve(null);
+  if (audioCache.has(key)) return audioCache.get(key);
+  if (getMissCache()[key]) return Promise.resolve(null);
+  const promise = (async () => {
+    for (const url of getSources(key)) {
+      const audio = await loadSource(url);
+      if (audio) return audio;
+    }
+    audioCache.delete(key);
+    markMiss(key);
+    return null;
+  })();
+  audioCache.set(key, promise);
   return promise;
 };
 
@@ -100,16 +105,9 @@ export const useWordAudio = () => {
   const loadingId = ref(null);
   const playingId = ref(null);
 
-  const isCached = (word) => {
-    loadCache();
-    return urlCache.has(normalize(word));
-  };
-
-  // Tải trước url + mp3 (gọi khi hover, hoặc cho từ sắp hiện)
-  const prefetch = async (word) => {
-    if (!word) return;
-    const url = await fetchAudioUrl(word);
-    getAudioEl(url);
+  // Tải trước mp3 (gọi khi hover, hoặc cho từ sắp hiện)
+  const prefetch = (word) => {
+    if (word) loadAudio(word);
   };
 
   const speakWithBrowser = (word, id) => {
@@ -132,13 +130,12 @@ export const useWordAudio = () => {
     stopAll();
     playingId.value = null;
 
-    if (!isCached(word)) loadingId.value = id;
-    const url = await fetchAudioUrl(word);
+    loadingId.value = id;
+    const audio = await loadAudio(word);
     if (loadingId.value === id) loadingId.value = null;
 
-    if (url) {
+    if (audio) {
       try {
-        const audio = getAudioEl(url);
         audio.currentTime = 0;
         currentAudio = audio;
         playingId.value = id;
