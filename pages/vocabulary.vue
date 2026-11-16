@@ -190,6 +190,22 @@
 
             <div class="flex gap-2">
               <UButton
+                @click="playAudio(item)"
+                @mouseenter="prefetchAudio(item)"
+                @touchstart.passive="prefetchAudio(item)"
+                @focus="prefetchAudio(item)"
+                :loading="loadingAudioId === item.id"
+                class="cursor-pointer font-bold border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
+                :icon="
+                  playingAudioId === item.id
+                    ? 'i-lucide-audio-lines'
+                    : 'i-lucide-volume-2'
+                "
+                size="md"
+                color="primary"
+                variant="subtle"
+              />
+              <UButton
                 @click="editVocab(item)"
                 class="cursor-pointer font-bold border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
                 icon="i-lucide-edit"
@@ -498,6 +514,164 @@ const handleFilter = () => {
   }
 };
 
+// ===== Audio phát âm =====
+// Nguồn: Free Dictionary API (https://dictionaryapi.dev) - miễn phí, không cần key.
+// Fallback: Web Speech API (speechSynthesis) của trình duyệt.
+//
+// Cơ chế cache (3 tầng):
+//  1. audioCache (Map word -> url|null), được lưu vào localStorage => reload trang vẫn còn,
+//     không phải gọi lại API.
+//  2. audioElCache (Map url -> Audio) => file mp3 đã tải sẵn trong bộ nhớ, bấm là phát ngay.
+//  3. pendingFetch (Map word -> Promise) => tránh gọi API trùng khi đang tải dở.
+// Prefetch: hover / touch / focus vào nút loa sẽ tải trước URL + mp3.
+const AUDIO_CACHE_KEY = "vv_audio_cache_v1";
+const audioCache = new Map();
+const audioElCache = new Map();
+const pendingFetch = new Map();
+const loadingAudioId = ref(null);
+const playingAudioId = ref(null);
+let currentAudio = null;
+
+const loadAudioCache = () => {
+  try {
+    const raw = localStorage.getItem(AUDIO_CACHE_KEY);
+    if (raw) {
+      Object.entries(JSON.parse(raw)).forEach(([k, v]) => audioCache.set(k, v));
+    }
+  } catch (error) {}
+};
+
+const saveAudioCache = () => {
+  try {
+    localStorage.setItem(
+      AUDIO_CACHE_KEY,
+      JSON.stringify(Object.fromEntries(audioCache)),
+    );
+  } catch (error) {}
+};
+
+const getAudioEl = (url) => {
+  if (!url) return null;
+  let audio = audioElCache.get(url);
+  if (!audio) {
+    audio = new Audio();
+    audio.preload = "auto";
+    audio.src = url;
+    audio.load();
+    audioElCache.set(url, audio);
+  }
+  return audio;
+};
+
+const fetchAudioUrl = (word) => {
+  const key = word.trim().toLowerCase();
+  if (audioCache.has(key)) return Promise.resolve(audioCache.get(key));
+  if (pendingFetch.has(key)) return pendingFetch.get(key);
+  const promise = requestAudioUrl(key).then((url) => {
+    // Chỉ cache khi có kết quả (url hoặc 404 = null); lỗi mạng thì không cache
+    if (url !== undefined) {
+      audioCache.set(key, url);
+      saveAudioCache();
+    }
+    pendingFetch.delete(key);
+    return url ?? null;
+  });
+  pendingFetch.set(key, promise);
+  return promise;
+};
+
+const prefetchAudio = async (item) => {
+  if (!item?.word) return;
+  const url = await fetchAudioUrl(item.word);
+  getAudioEl(url);
+};
+
+const requestAudioUrl = async (key) => {
+  let url = null;
+  try {
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(key)}`,
+    );
+    if (res.ok) {
+      const data = await res.json();
+      const phonetics = data.flatMap((entry) => entry.phonetics || []);
+      const withAudio = phonetics.filter((p) => p.audio);
+      // Ưu tiên giọng Mỹ (-us), sau đó Anh (-uk), rồi bất kỳ
+      const pick =
+        withAudio.find((p) => p.audio.includes("-us.")) ||
+        withAudio.find((p) => p.audio.includes("-uk.")) ||
+        withAudio[0];
+      url = pick?.audio || null;
+    } else if (res.status !== 404) {
+      return undefined; // lỗi server/rate limit -> không cache
+    }
+  } catch (error) {
+    return undefined; // lỗi mạng -> không cache
+  }
+  return url;
+};
+
+const speakWithBrowser = (word, id) => {
+  if (typeof window === "undefined" || !window.speechSynthesis) return false;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = "en-US";
+  utter.rate = 0.9;
+  utter.onend = () => {
+    if (playingAudioId.value === id) playingAudioId.value = null;
+  };
+  playingAudioId.value = id;
+  window.speechSynthesis.speak(utter);
+  return true;
+};
+
+const playAudio = async (item) => {
+  if (!item?.word) return;
+  // Dừng audio đang phát
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  window.speechSynthesis?.cancel();
+  playingAudioId.value = null;
+
+  const key = item.word.trim().toLowerCase();
+  // Chỉ hiện loading khi chưa có trong cache
+  if (!audioCache.has(key)) loadingAudioId.value = item.id;
+  const url = await fetchAudioUrl(item.word);
+  loadingAudioId.value = null;
+
+  if (url) {
+    try {
+      const audio = getAudioEl(url);
+      audio.currentTime = 0;
+      currentAudio = audio;
+      playingAudioId.value = item.id;
+      audio.onended = () => {
+        if (playingAudioId.value === item.id) playingAudioId.value = null;
+      };
+      await audio.play();
+      return;
+    } catch (error) {
+      playingAudioId.value = null;
+    }
+  }
+
+  if (!speakWithBrowser(item.word, item.id)) {
+    toast.add({
+      title: t("something_wrong"),
+      color: "error",
+      duration: 1000,
+      placement: "top-center",
+    });
+  }
+};
+
+onBeforeUnmount(() => {
+  currentAudio?.pause();
+  if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+});
+
 const handleDownload = () => {
   const link = document.createElement("a");
   link.href = `${import.meta.env.VITE_BASE_URL}/vocabulary/download-template`;
@@ -506,6 +680,7 @@ const handleDownload = () => {
   document.body.removeChild(link);
 };
 onMounted(() => {
+  loadAudioCache();
   const token = getCookie(KEY.TOKEN);
   if (token) {
     initData();
