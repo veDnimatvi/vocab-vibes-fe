@@ -1,7 +1,12 @@
 <template>
   <template v-if="isLogin !== null">
     <div class="flex justify-center" v-if="isLogin">
-      <div v-if="!modePractice" class="mt-10 w-full max-w-4xl px-4 my-6 flex flex-col gap-6">
+      <MatchPairs
+        v-if="modeMatch"
+        :vocabs="listVocab"
+        :size="8"
+        @back="modeMatch = false" />
+      <div v-else-if="!modePractice" class="mt-10 w-full max-w-4xl px-4 my-6 flex flex-col gap-6">
         <!-- Neobrutalist Daily Challenge Banner -->
         <div class="bg-[#be185d] border-2 border-black rounded shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] -rotate-2 p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden text-left">
           
@@ -58,6 +63,29 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- Match Pairs Mode Card -->
+        <div class="bg-[#dbeafe] text-black border-2 border-black rounded shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rotate-1 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-6 text-left">
+          <div class="flex items-start gap-4">
+            <div class="bg-white border-2 border-black rounded p-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-3 shrink-0">
+              <UIcon name="i-lucide-layout-grid" class="w-8 h-8 text-[#1d4ed8]" />
+            </div>
+            <div>
+              <div class="font-black text-2xl uppercase tracking-wide mb-1">
+                {{ $t("match_title") }}
+              </div>
+              <p class="font-bold text-sm md:text-base leading-relaxed">
+                {{ $t("match_desc") }}
+              </p>
+            </div>
+          </div>
+          <button
+            @click="onMatchPractice"
+            class="shrink-0 inline-flex items-center justify-center bg-[#1d4ed8] hover:bg-[#2563eb] text-white font-extrabold px-6 py-3 border-2 border-black rounded shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer text-base uppercase tracking-wider select-none">
+            <span>{{ $t("match_btn") }}</span>
+            <span class="ml-2">🧩</span>
+          </button>
         </div>
 
         <!-- Neobrutalist Vibe Tip Box -->
@@ -274,6 +302,31 @@ const onPractice = () => {
       ],
     });
   }
+};
+
+// ===== Match pairs mode =====
+const modeMatch = ref(false);
+const onMatchPractice = () => {
+  if (listVocab.value.length >= 2) {
+    modeMatch.value = true;
+    return;
+  }
+  toast.add({
+    title: t(listVocab.value.length ? "match_not_enough" : "empty_err_practice"),
+    color: "warning",
+    placement: "top-center",
+    actions: [
+      {
+        icon: "i-lucide-pointer",
+        label: t("click_here"),
+        color: "neutral",
+        variant: "solid",
+        onClick: () => {
+          router.push("/vocabulary");
+        },
+      },
+    ],
+  });
 };
 
 const pickIndex = () => Math.floor(Math.random() * listVocab.value.length);

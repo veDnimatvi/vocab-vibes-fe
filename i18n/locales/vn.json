@@ -118,6 +118,15 @@
   "payment_content_label": "Nội dung",
   "payment_amount_label": "Số tiền",
   "payment_qr_divider": "Hoặc quét QR",
-  "payment_qr_hint": "Quét mã QR sau (khuyến khích quét bằng các App ngân hàng, một số ví điện tử VNPAY, ShopeePay,...)"
+  "payment_qr_hint": "Quét mã QR sau (khuyến khích quét bằng các App ngân hàng, một số ví điện tử VNPAY, ShopeePay,...)",
+  "match_title": "Nối cặp",
+  "match_desc": "Nối từ với nghĩa đúng của nó. 8 từ ngẫu nhiên trong kho từ vựng của bạn.",
+  "match_btn": "Chơi nối cặp",
+  "match_mistakes": "Số lần sai",
+  "match_time": "Thời gian",
+  "match_done": "Tuyệt vời! Bạn đã nối hết các cặp",
+  "match_play_again": "Chơi lại",
+  "match_back": "Quay lại",
+  "match_not_enough": "Bạn cần ít nhất 2 từ vựng để chơi"
 }
 

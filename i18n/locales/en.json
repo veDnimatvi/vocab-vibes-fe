@@ -117,6 +117,15 @@
   "payment_content_label": "Transfer Note",
   "payment_amount_label": "Amount",
   "payment_qr_divider": "Or scan QR",
-  "payment_qr_hint": "Scan the QR code below (recommended via banking apps, VNPAY, ShopeePay, etc.)"
+  "payment_qr_hint": "Scan the QR code below (recommended via banking apps, VNPAY, ShopeePay, etc.)",
+  "match_title": "Match pairs",
+  "match_desc": "Match each word with its meaning. 8 random words from your vocabulary.",
+  "match_btn": "Play match",
+  "match_mistakes": "Mistakes",
+  "match_time": "Time",
+  "match_done": "Great job! All pairs matched",
+  "match_play_again": "Play again",
+  "match_back": "Back",
+  "match_not_enough": "You need at least 2 vocabulary words to play"
 }
 
