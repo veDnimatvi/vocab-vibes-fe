@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-3xl mx-auto px-4 mt-10 mb-10">
+  <div class="w-full max-w-3xl mx-auto px-4 mb-10">
     <!-- Header: back + stats -->
     <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
       <button
