@@ -80,15 +80,32 @@
                 : 'border-red-500 shadow-[6px_6px_0px_0px_#ef4444]'
               : 'border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]'
           }`">
-          <p class="font-bold text-xl mb-3">
-            <span
-              class="dark:bg-white dark:text-black bg-black text-white px-2 rounded font-bold">
-              {{ wordSelected.type }}
-            </span>
-            <span class="pl-3">{{
-              randomNumber % 2 === 0 ? wordSelected.word : wordSelected.meaning
-            }}</span>
-          </p>
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <p class="font-bold text-xl">
+              <span
+                class="dark:bg-white dark:text-black bg-black text-white px-2 rounded font-bold">
+                {{ wordSelected.type }}
+              </span>
+              <span class="pl-3">{{
+                randomNumber % 2 === 0 ? wordSelected.word : wordSelected.meaning
+              }}</span>
+            </p>
+            <!-- Chỉ hiện khi đề là từ tiếng Anh, hoặc đã xem đáp án (tránh lộ đáp án) -->
+            <UButton
+              v-if="canPlayAudio"
+              @click="playCurrentWord"
+              :loading="loadingAudioId === wordSelected.word"
+              :icon="
+                playingAudioId === wordSelected.word
+                  ? 'i-lucide-audio-lines'
+                  : 'i-lucide-volume-2'
+              "
+              class="shrink-0 cursor-pointer font-bold border-2 border-black rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
+              size="md"
+              color="primary"
+              variant="subtle"
+              :aria-label="$t('word')" />
+          </div>
           <UForm
             :schema="schema"
             :state="state"
@@ -189,9 +206,9 @@ const initData = async () => {
 };
 const onSubmit = (event) => {
   if (showAnswer.value !== null) {
-    randomWord();
     showAnswer.value = null;
     state.answer = "";
+    randomWord();
   } else {
     const listMean = wordSelected.value.meaning
       .toLowerCase()
@@ -210,7 +227,29 @@ const onSubmit = (event) => {
         ? listAnswer.every((i) => listMean.includes(i))
         : listAnswer.every((i) => listWord.includes(i));
     showAnswer.value = check;
+    // Đề là nghĩa -> giờ mới được nghe từ tiếng Anh
+    if (randomNumber.value % 2 !== 0) playCurrentWord();
   }
+};
+
+// ===== Audio =====
+const {
+  play: playWord,
+  prefetch: prefetchWord,
+  loadingId: loadingAudioId,
+  playingId: playingAudioId,
+} = useWordAudio();
+const nextIndex = ref(null);
+
+// Đề hiện từ tiếng Anh, hoặc đã check xong -> cho nghe
+const canPlayAudio = computed(
+  () =>
+    !!wordSelected.value?.word &&
+    (randomNumber.value % 2 === 0 || showAnswer.value !== null),
+);
+
+const playCurrentWord = () => {
+  if (wordSelected.value?.word) playWord(wordSelected.value.word);
 };
 
 const onPractice = () => {
@@ -237,10 +276,21 @@ const onPractice = () => {
   }
 };
 
+const pickIndex = () => Math.floor(Math.random() * listVocab.value.length);
+
 const randomWord = () => {
-  const randomIndex = Math.floor(Math.random() * listVocab.value.length);
+  // Dùng từ đã chọn sẵn (đã prefetch audio) nếu có
+  const randomIndex = nextIndex.value ?? pickIndex();
   randomNumber.value = Math.floor(Math.random() * 10);
   wordSelected.value = listVocab.value[randomIndex];
+
+  // Tự phát nếu đề là từ tiếng Anh
+  if (canPlayAudio.value) playCurrentWord();
+  else prefetchWord(wordSelected.value?.word); // tải sẵn để phát ngay sau khi check
+
+  // Chọn trước từ tiếp theo và tải sẵn audio
+  nextIndex.value = pickIndex();
+  prefetchWord(listVocab.value[nextIndex.value]?.word);
 };
 onMounted(() => {
   const token = getCookie(KEY.TOKEN);
